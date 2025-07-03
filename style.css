@@ -126,3 +126,10 @@ body:has(.fade-in) {
 html, body {
   overscroll-behavior-y: none;
 }
+
+.processing {
+  color: #ffd3dc;
+  font-style: italic;
+  margin-left: 2ch;
+  animation: blink 1s infinite;
+}
