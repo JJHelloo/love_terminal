@@ -66,7 +66,7 @@ function typeLine(text, callback) {
 function showPrompt() {
   const inputLine = document.createElement("div");
   const inputId = `cmdInput_${Date.now()}`;
-  inputLine.innerHTML = `<span>love@terminal:~$ </span><input id="${inputId}" type="text" autocomplete="off" style="background: transparent; border: none; color:rgb(255, 255, 255); outline: none; font-family: inherit; width: 80px;">`;
+  inputLine.innerHTML = `<span>love@terminal:~$ </span><input id="${inputId}" type="text" autocomplete="off" style="background: transparent; border: none; color: rgb(255, 255, 255); outline: none; font-family: inherit; width: 80px;">`;
   terminal.appendChild(inputLine);
 
   const input = document.getElementById(inputId);
@@ -74,14 +74,50 @@ function showPrompt() {
 
   input.addEventListener("keydown", event => {
     if (event.key === "Enter") {
-      const val = parseInt(input.value);
+      const val = input.value.trim().toLowerCase();
       input.disabled = true;
       handleCommand(val);
     }
   });
 }
 
-function handleCommand(val) {
+function handleCommand(inputVal) {
+  if (["clear", "cls"].includes(inputVal)) {
+    terminal.innerHTML = "";
+    return bootSequence();
+  }
+
+  if (inputVal === "help") {
+    typeLine("> Valid options: 1 - 5\n> Commands: help, clear, exit, sudo love, 69, 404", showPrompt);
+    return;
+  }
+
+  if (inputVal === "exit") {
+    typeLine("> exiting loveOS... goodbye <3");
+    return;
+  }
+
+  if (inputVal === "69") {
+    typeLine("> Nice.", showPrompt);
+    return;
+  }
+
+  if (inputVal === "404") {
+    typeLine("> Love not found. Try again.", showPrompt);
+    return;
+  }
+
+  if (inputVal === "sudo love") {
+    typeLine("> You are now root of my heart ❤️", showPrompt);
+    return;
+  }
+
+  if (inputVal === "love --version") {
+    typeLine("> loveOS v1.0.∞-dev ❤️", showPrompt);
+    return;
+  }
+
+  const val = parseInt(inputVal);
   const message = loveMessages.find(m => m.id === val);
   if (!message || revealedMessages.has(val)) {
     typeLine(`> Invalid or already viewed. Try a number 1-5.`, showPrompt);
@@ -111,8 +147,26 @@ function displayHeartBar(count) {
 }
 
 function showFinalMessage() {
-  const finalMessage = "\n> FINAL MESSAGE UNLOCKED:\n\u2764\ufe0f You’re everything to me. You’ve seen me at my worst, laughed with me at my dumbest, and stayed when you didn’t have to. Happy Anniversary. You make life better just by being in it.";
-  typeLine(finalMessage, showSprites);
+  const sequence = [
+    "> compiling final message...",
+    "> loading heart.exe...",
+    "> ♥♥♥♥♥ COMPLETE",
+    "\n> FINAL MESSAGE UNLOCKED:\n\u2764\ufe0f You’re everything to me. You’ve seen me at my worst, laughed with me at my dumbest, and stayed when you didn’t have to. Happy Anniversary. You make life better just by being in it."
+  ];
+
+  let i = 0;
+  function next() {
+    if (i < sequence.length) {
+      typeLine(sequence[i], () => {
+        i++;
+        setTimeout(next, 800);
+      });
+    } else {
+      showSprites();
+    }
+  }
+
+  next();
 }
 
 function showSprites() {
@@ -120,12 +174,12 @@ function showSprites() {
     sprite.style.display = 'block';
   });
 }
+
+window.onload = bootSequence;
+
 document.addEventListener("click", () => {
   const inputs = document.querySelectorAll('input[type="text"]:not([disabled])');
   if (inputs.length > 0) {
     inputs[inputs.length - 1].focus();
   }
 });
-
-
-window.onload = bootSequence;
