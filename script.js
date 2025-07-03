@@ -40,7 +40,10 @@ let bootIndex = 0;
 let revealedMessages = new Set();
 
 function scrollToBottom() {
-  terminal.scrollTop = terminal.scrollHeight;
+  const lastChild = terminal.lastElementChild;
+  if (lastChild) {
+    lastChild.scrollIntoView({ behavior: "smooth", block: "end" });
+  }
 }
 
 function bootSequence() {
