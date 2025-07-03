@@ -3,7 +3,7 @@ html, body {
 }
 
 body {
-  background-color: #000000;
+  background: linear-gradient(to bottom right, #1a001f, #000000);
   color: #ffb6c1;
   font-family: 'Courier New', monospace;
   padding: 30px;
@@ -12,6 +12,7 @@ body {
   height: 100vh;
   overflow-y: auto;
 }
+
 
 #terminal {
   white-space: pre-wrap;
