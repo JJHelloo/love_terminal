@@ -6,7 +6,7 @@ body {
   overflow-x: hidden;
   margin: 0;
   height: 100vh;
-  overflow-y: hidden;
+  overflow-y: auto;
 }
 
 #terminal {
