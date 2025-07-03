@@ -39,6 +39,10 @@ const loveMessages = [
 let bootIndex = 0;
 let revealedMessages = new Set();
 
+function scrollToBottom() {
+  terminal.scrollTop = terminal.scrollHeight;
+}
+
 function bootSequence() {
   if (bootIndex < bootLines.length) {
     typeLine(bootLines[bootIndex], () => {
@@ -59,12 +63,13 @@ function typeLine(text, callback) {
     if (i < text.length) {
       line.textContent += text[i];
       i++;
-      window.scrollTo(0, document.body.scrollHeight);
+      scrollToBottom();
     } else {
       clearInterval(interval);
       if (callback) callback();
     }
   }, 40);
+  scrollToBottom();
 }
 
 function showPrompt() {
@@ -72,7 +77,7 @@ function showPrompt() {
   const inputId = `cmdInput_${Date.now()}`;
   inputLine.innerHTML = `<span>love@terminal:~$ </span><input id="${inputId}" type="text" autocomplete="off" style="background: transparent; border: none; color: rgb(255, 255, 255); outline: none; font-family: inherit; width: 80px; font-size: 16px;">`;
   terminal.appendChild(inputLine);
-  window.scrollTo(0, document.body.scrollHeight);
+  scrollToBottom();
 
   const input = document.getElementById(inputId);
   setTimeout(() => input.focus(), 50);
@@ -136,7 +141,7 @@ function handleCommand(inputVal) {
   processingLine.className = "processing";
   processingLine.textContent = "> processing...";
   terminal.appendChild(processingLine);
-  window.scrollTo(0, document.body.scrollHeight);
+  scrollToBottom();
 
   setTimeout(() => {
     processingLine.remove();
