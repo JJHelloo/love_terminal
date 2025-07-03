@@ -66,7 +66,7 @@ function typeLine(text, callback) {
 function showPrompt() {
   const inputLine = document.createElement("div");
   const inputId = `cmdInput_${Date.now()}`;
-  inputLine.innerHTML = `<span>love@terminal:~$ </span><input id="${inputId}" type="text" autocomplete="off" style="background: transparent; border: none; color: rgb(255, 255, 255); outline: none; font-family: inherit; width: 80px;">`;
+  inputLine.innerHTML = `<span>love@terminal:~$ </span><input id="${inputId}" type="text" autocomplete="off" style="background: transparent; border: none; color: rgb(255, 255, 255); outline: none; font-family: inherit;  font-size: 16px;">`;
   terminal.appendChild(inputLine);
 
   const input = document.getElementById(inputId);
