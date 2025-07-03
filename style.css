@@ -103,3 +103,26 @@ input[type="text"] {
   margin-left: 4px;
   width: 80px;
 }
+
+/* Force scroll-to-bottom behavior on new content */
+.fade-in::after {
+  content: '';
+  display: block;
+  height: 0;
+  visibility: hidden;
+  animation: scrollDown 0.1s forwards;
+}
+
+@keyframes scrollDown {
+  to {
+    transform: translateY(0);
+  }
+}
+
+body:has(.fade-in) {
+  scroll-behavior: smooth;
+}
+
+html, body {
+  overscroll-behavior-y: none;
+}
