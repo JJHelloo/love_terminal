@@ -4,7 +4,8 @@ const bootLines = [
   "love@terminal:~$ booting loveOS v1.0",
   "love@terminal:~$ compiling feelings",
   "love@terminal:~$ running love_script.sh",
-  "\n> Enter a number (1-5) to unlock a message"
+  "\n> Enter a number (1-5) to unlock a message",
+  "\n> Or use sudo love, love --version, or 404\n"
 ];
 
 const loveMessages = [
@@ -51,6 +52,7 @@ function bootSequence() {
 
 function typeLine(text, callback) {
   const line = document.createElement("div");
+  line.classList.add("fade-in");
   terminal.appendChild(line);
   let i = 0;
   const interval = setInterval(() => {
@@ -58,19 +60,19 @@ function typeLine(text, callback) {
     i++;
     if (i >= text.length) {
       clearInterval(interval);
-      terminal.scrollTop = terminal.scrollHeight;
+      window.scrollTo(0, document.body.scrollHeight);
       if (callback) callback();
     }
   }, 40);
-  terminal.scrollTop = terminal.scrollHeight;
+  window.scrollTo(0, document.body.scrollHeight);
 }
 
 function showPrompt() {
   const inputLine = document.createElement("div");
   const inputId = `cmdInput_${Date.now()}`;
-  inputLine.innerHTML = `<span>love@terminal:~$ </span><input id="${inputId}" type="text" autocomplete="off" style="background: transparent; border: none; color: rgb(255, 255, 255); outline: none; font-family: inherit;  font-size: 16px;">`;
+  inputLine.innerHTML = `<span>love@terminal:~$ </span><input id="${inputId}" type="text" autocomplete="off" style="background: transparent; border: none; color: rgb(255, 255, 255); outline: none; font-family: inherit; width: 80px; font-size: 16px;">`;
   terminal.appendChild(inputLine);
-  terminal.scrollTop = terminal.scrollHeight;
+  window.scrollTo(0, document.body.scrollHeight);
 
   const input = document.getElementById(inputId);
   setTimeout(() => input.focus(), 50);
@@ -128,18 +130,28 @@ function handleCommand(inputVal) {
   }
 
   revealedMessages.add(val);
-  typeLine(`> ${message.text}`, () => {
-    setTimeout(() => {
-      typeLine(`  ${message.extra}`, () => {
-        displayHeartBar(revealedMessages.size);
-        if (revealedMessages.size === loveMessages.length) {
-          setTimeout(showFinalMessage, 1000);
-        } else {
-          showPrompt();
-        }
-      });
-    }, 500);
-  });
+
+  const processingLine = document.createElement("div");
+  processingLine.className = "processing";
+  processingLine.textContent = "> processing...";
+  terminal.appendChild(processingLine);
+  window.scrollTo(0, document.body.scrollHeight);
+
+  setTimeout(() => {
+    processingLine.remove();
+    typeLine(`> ${message.text}`, () => {
+      setTimeout(() => {
+        typeLine(`  ${message.extra}`, () => {
+          displayHeartBar(revealedMessages.size);
+          if (revealedMessages.size === loveMessages.length) {
+            setTimeout(showFinalMessage, 1000);
+          } else {
+            showPrompt();
+          }
+        });
+      }, 500);
+    });
+  }, 800);
 }
 
 function displayHeartBar(count) {
