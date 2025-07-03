@@ -15,6 +15,7 @@ body {
   max-width: 600px;
   margin: 0 auto;
   max-height: 90vh;
+  padding-top: 35px;
   overflow-y: auto;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none;  /* IE 10+ */
