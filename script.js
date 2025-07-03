@@ -58,9 +58,11 @@ function typeLine(text, callback) {
     i++;
     if (i >= text.length) {
       clearInterval(interval);
+      terminal.scrollTop = terminal.scrollHeight;
       if (callback) callback();
     }
   }, 40);
+  terminal.scrollTop = terminal.scrollHeight;
 }
 
 function showPrompt() {
@@ -68,6 +70,7 @@ function showPrompt() {
   const inputId = `cmdInput_${Date.now()}`;
   inputLine.innerHTML = `<span>love@terminal:~$ </span><input id="${inputId}" type="text" autocomplete="off" style="background: transparent; border: none; color: rgb(255, 255, 255); outline: none; font-family: inherit;  font-size: 16px;">`;
   terminal.appendChild(inputLine);
+  terminal.scrollTop = terminal.scrollHeight;
 
   const input = document.getElementById(inputId);
   setTimeout(() => input.focus(), 50);
@@ -151,7 +154,8 @@ function showFinalMessage() {
     "> compiling final message...",
     "> loading heart.exe...",
     "> ♥♥♥♥♥ COMPLETE",
-    "\n> FINAL MESSAGE UNLOCKED:\n\u2764\ufe0f You’re everything to me. You’ve seen me at my worst, laughed with me at my dumbest, and stayed when you didn’t have to. Happy Anniversary. You make life better just by being in it."
+    "\n> FINAL MESSAGE UNLOCKED:\n❤️ You’re everything to me. You’ve seen me at my worst, laughed with me at my dumbest, and stayed when you didn’t have to. Happy Anniversary. You make life better just by being in it.",
+    "\n[🧑‍💻] 💞 [💘]"
   ];
 
   let i = 0;
@@ -161,18 +165,10 @@ function showFinalMessage() {
         i++;
         setTimeout(next, 800);
       });
-    } else {
-      showSprites();
     }
   }
 
   next();
-}
-
-function showSprites() {
-  document.querySelectorAll('.sprite').forEach(sprite => {
-    sprite.style.display = 'block';
-  });
 }
 
 window.onload = bootSequence;
