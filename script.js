@@ -1,11 +1,11 @@
 const terminal = document.getElementById("terminal");
 
 const bootLines = [
-  "love@terminal:~$ booting loveOS v1.0",
+  "\nlove@terminal:~$ booting loveOS v1.0",
   "love@terminal:~$ compiling feelings",
   "love@terminal:~$ running love_script.sh",
   "\n> Enter a number (1-5) to unlock a message",
-  "\n> Or use sudo love, love --version, or 404\n"
+  "> Or use help for more <3"
 ];
 
 const loveMessages = [
@@ -56,15 +56,15 @@ function typeLine(text, callback) {
   terminal.appendChild(line);
   let i = 0;
   const interval = setInterval(() => {
-    line.textContent += text[i];
-    i++;
-    if (i >= text.length) {
-      clearInterval(interval);
+    if (i < text.length) {
+      line.textContent += text[i];
+      i++;
       window.scrollTo(0, document.body.scrollHeight);
+    } else {
+      clearInterval(interval);
       if (callback) callback();
     }
   }, 40);
-  window.scrollTo(0, document.body.scrollHeight);
 }
 
 function showPrompt() {
@@ -89,6 +89,7 @@ function showPrompt() {
 function handleCommand(inputVal) {
   if (["clear", "cls"].includes(inputVal)) {
     terminal.innerHTML = "";
+    bootIndex = 0;
     return bootSequence();
   }
 
